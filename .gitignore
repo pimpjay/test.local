@@ -8,7 +8,6 @@ coverage
 kohana_release
 nbproject
 build
-log/
 .idea/
 .git/
 
