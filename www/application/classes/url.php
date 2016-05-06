@@ -81,6 +81,7 @@ class URL extends Kohana_URL
     public static function logout()
     {
         return Route::url('auth', array(
+            'controller' => 'auth',
             'action'     => 'logout'
         ));
     }
