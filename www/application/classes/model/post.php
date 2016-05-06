@@ -7,7 +7,7 @@ class Model_Post extends ORM
     protected $_has_many = array(
         'comments'    => array(
             'model'       => 'comment',
-            'foreign_key' => 'post_id',
+            'foreign_key' => 'post_id', // изучить
         )
     );
 
@@ -34,5 +34,20 @@ class Model_Post extends ORM
                 array('not_empty')
             ),
         );
+    }
+
+    public function labels ()
+    {
+        return array(
+            'title'         =>  'Заголовок',
+            'author'        =>  'Автор',
+            'content_full'  =>  'Сообщение'
+        );
+    }
+
+    public function increment_view_count()
+    {
+        $this->views = $this->views + 1;
+        $this->save();
     }
 }

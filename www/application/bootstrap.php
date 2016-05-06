@@ -100,15 +100,16 @@ Kohana::$config->attach(new Config_File);
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
 Kohana::modules(array(
-	 'auth'       => MODPATH.'auth',       // Basic authentication
+	 'auth'       	=> MODPATH.'auth',       // Basic authentication
 	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
 	// 'codebench'  => MODPATH.'codebench',  // Benchmarking tool
-	 'database'   => MODPATH.'database',   // Database access
+	 'database'     => MODPATH.'database',   // Database access
 	// 'image'      => MODPATH.'image',      // Image manipulation
-	 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
+	 'orm'          => MODPATH.'orm',        // Object Relationship Mapping
 	// 'unittest'   => MODPATH.'unittest',   // Unit testing
-	 'userguide'  => MODPATH.'userguide',  // User guide and API documentation
-	 'smarty'  => MODPATH.'smarty',       // smarty template engine
+	 'userguide'    => MODPATH.'userguide',  // User guide and API documentation
+	 'smarty'       => MODPATH.'smarty',     // smarty template engine
+	 'email'        => MODPATH.'email', 	 // E-mail
 	));
 
 //define("SMARTY_DIR", APPPATH . "classes/Smarty/libs/" );
@@ -120,17 +121,27 @@ Kohana::modules(array(
  * If you have not defined a cookie salt in your Cookie class then
  * Uncomment the line below and define a salt for the Cookie.
  */
-// Cookie::$salt = NULL;
+Cookie::$salt = 'salty!';
 
 /**
  * Set the routes. Each route must have a minimum of a name, a URI and a set of
  * defaults for the URI.
  */
-//Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
+
+//Route::set('auth', '<action>', array('action' => 'login|logout'))
 //	->defaults(array(
-//		'directory'  => 'admin',
-//		'controller' => 'main',
+//		'controller' => 'auth'
+//	));
+//
+//Route::set('admin', '(<controller>(/<action>))')
+//	->defaults(array(
+//		'controller' => 'admin_main',
 //		'action'     => 'index',
+//	));
+//Route::set('admin_post', '(<controller>(/<action>(/<id>)))')
+//	->defaults(array(
+//		'controller' => 'admin_post',
+//		'action'     => 'view'
 //	));
 //
 //
@@ -153,7 +164,30 @@ Kohana::modules(array(
 //		'action'     => 'article',
 //	));
 
+//Route::set('admin', '(<controller>(/<action>))')
+//	->defaults(array(
+//		'controller' => 'admin',
+//		'action'     => 'index',
+//	));
+//
+//Route::set('registration', '<action>', array('action' => 'view'))
+//	->defaults(array(
+//		'controller' => 'registration'
+//	));
 
+Route::set('admin_post', 'admin/post(/<action>(/<id>))')
+	->defaults(array(
+		'directory'  => 'admin',
+		'controller' => 'post',
+		'action'     => 'view',
+	));
+
+Route::set('admin', 'admin(/<controller>(/<action>(/<id>)))')
+	->defaults(array(
+		'directory'  => 'admin',
+		'controller' => 'main',
+		'action'     => 'index',
+	));
 
 Route::set('default', '(<controller>(/<action>(/<id>)))')
         ->defaults(array(

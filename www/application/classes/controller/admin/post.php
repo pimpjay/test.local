@@ -1,6 +1,6 @@
 <?php defined('SYSPATH') or die('No direct script access.');
 
-class Controller_Post extends Controller_Common
+class Controller_Admin_Post extends Controller_Common
 {
     public function action_view()
     {
@@ -27,26 +27,26 @@ class Controller_Post extends Controller_Common
             try
             {
                 $new_comment->save();
-                $this->request->redirect(Route::url('default', array(
+                $this->request->redirect(Route::url('admin', array(
+                    'directory'    => 'admin',
                     'controller'   => 'post',
                     'action'       => 'view',
                     'id'           => $id
                 )));
-
             }
             catch (ORM_Validation_Exception $e)
             {
                 $errors = $e->errors($e->alias());
             }
         }
-        
+
         $this->smarty->assign(array(
             'new_comment'   => $new_comment,
             'post'          => $post,
             'comments'      => $post->comments->order_by('id', 'desc')->find_all(),// изучить
             'errors'        => $errors
         ));
-        $this->smarty->display('post/view.tpl');
+        $this->smarty->display('admin/post/view.tpl');
     }
 
     public function action_create()
@@ -55,10 +55,6 @@ class Controller_Post extends Controller_Common
         $post = ORM::factory('post');
 
         $this->post_handler($post);
-
-        $message = ' кто-то что-то написал ';
-        $message = wordwrap($message, 70, "\r\n");
-        mail('curigi@leeching.net', 'new post', $message);
 
         $this->smarty->display('post/create.tpl');
     }
@@ -94,7 +90,7 @@ class Controller_Post extends Controller_Common
         }
 
         $post->delete();
-        $this->request->redirect(Route::url('default'));
+        $this->request->redirect(Route::url('admin'));
     }
 
     /**
@@ -112,14 +108,12 @@ class Controller_Post extends Controller_Common
             {
                 $post->save();
                 $id = $post->id;
-                $this->request->redirect(Route::url('default', array(
-                    'controller' => 'post',
-                    'action' => 'view',
-                    'id' => $id
+                $this->request->redirect(Route::url('admin_post', array(
+                    'directory'     =>  'admin',
+                    'controller'    =>  'post',
+                    'action'        =>  'view',
+                    'id'            =>  $id
                 )));
-
-
-
             }
             catch (ORM_Validation_Exception $e)
             {

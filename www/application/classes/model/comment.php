@@ -4,6 +4,13 @@ class Model_Comment extends ORM
 {
     protected $_table_name = 'comments';
 
+    protected $_belongs_to = array(
+        'post' => array(
+            'model'       => 'post',
+            'foreign_key' => 'post_id' // изучить
+        ),
+    );
+    
     public function filters()
     {
         return array(
@@ -24,5 +31,18 @@ class Model_Comment extends ORM
                 array('not_empty')
             ),
         );
+    }
+
+    public function labels ()
+    {
+        return array(
+            'user'         =>  'Пользователь',
+            'message'      =>  'Сообщение'
+        );
+    }
+
+    public function title_filled($username)
+    {
+        return ORM::factory('member', array('username' => $username))->loaded();
     }
 }

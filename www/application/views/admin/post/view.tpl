@@ -18,17 +18,25 @@
             <p>
                 Просмотров: {$post->views}
             </p>
+            <a href="{URL::admin_post_update($post)}" class="btn btn-sm btn-info">
+            Редактировать
+            </a>
+            <a href="{URL::admin_post_delete($post)}" class="btn btn-sm btn-danger">
+            Удалить
+            </a>
         </div>
         <div class="col-md-4 col-md-offset-4">
             {foreach $comments as $comment}
                 <div>
                     <p>
-                        Пользователь: <b>{$comment->user}</b>
+                       Пользователь: {$comment->user}
                     </p>
                     <p>
-                        Сообщение: <b>{$comment->message}</b>
+                        Сообщение: {$comment->message}
                     </p>
-                    <hr>
+                    <a href="{URL::admin_comment_delete($comment)}" class="btn btn-xs btn-danger">
+                        Удалить
+                    </a>
                 </div>
             {/foreach}
         </div>
